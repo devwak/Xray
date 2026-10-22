@@ -45,6 +45,19 @@ jobs:
       - name: Build XrayCore + XrayHelper (arm64)
         run: |
           chmod +x buildXrayCore.sh buildXrayHelper.sh buildGo.sh || true
+          
+          # 强制重新初始化 XrayCore 的 go.mod
+          cd XrayCore
+          rm -f go.mod go.sum
+          go mod init XrayCore
+          go mod edit -replace github.com/xtls/xray-core=./Xray-core
+          go mod edit -replace github.com/xtls/libxray=./libXray
+          go mod tidy
+          go get golang.org/x/mobile
+          go get google.golang.org/genproto
+          cd ..
+          
+          # 正常编译
           ./buildXrayCore.sh arm64
           ./buildXrayHelper.sh arm64
 
