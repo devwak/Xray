@@ -52,6 +52,13 @@ jobs:
           go mod init XrayCore
           go mod edit -replace github.com/xtls/xray-core=./Xray-core
           go mod edit -replace github.com/xtls/libxray=./libXray
+          
+          # === 关键：把魔改的三个本地模块也 replace 进来 ===
+          go mod edit -replace github.com/apernet/quic-go=./Xray-core/my-quic-go_v0.63.0_magic
+          go mod edit -replace github.com/quic-go/qpack=./Xray-core/my-qpack_v0.6.0
+          go mod edit -replace github.com/hy2normal/quic-go=./Xray-core/my-quic-go_v0.63.0_normal_myNoChrome
+
+          
           go mod tidy
           go get golang.org/x/mobile
           go get google.golang.org/genproto
